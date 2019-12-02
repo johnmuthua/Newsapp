@@ -11,12 +11,13 @@ def about(request):
 
 def home(request):
     context = NewsArticle.objects
+    for item in context.all():
+        print(item.source)
     return render(request,'home.html', {"context":context})
 
 def update(request, KEY = API_KEY, country='us'):
     #TODO check if there is internet connection
     #TODO place the code within a try catch block
-    #TODO try to detect  duplicates
     KEY = API_KEY
     url = ('https://newsapi.org/v2/top-headlines?'
            'country='+ country+ '&'
@@ -25,11 +26,13 @@ def update(request, KEY = API_KEY, country='us'):
     print(url)
     response = requests.get(url)
     data = response.json()['articles']
+
     for news in data:
-        n = NewsArticle(source = news['source'],author = news['author'],
+        n, created = NewsArticle.objects.get_or_create(source = news['source'],author = news['author'],
                         title= news['title'], description = news['description'], url= news['url'],
                         urlToImage = news['urlToImage'], publishedAt = news['publishedAt'],
                         content = news['content'],)
+        print(news['publishedAt'])
         if n:
             n.save()
     return render(request,'update.html', {"data":data[0]})
