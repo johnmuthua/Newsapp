@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from .models import NewsArticle
 from .config import API_KEY
 import requests
@@ -10,18 +10,18 @@ def about(request):
     return render(request, 'about.html', {"context":context[0]})
 
 def home(request):
-    all_news = NewsArticle.objects.all()
+    all_news = NewsArticle.objects.get_queryset().order_by('publishedAt')
     paginator = Paginator(all_news, 9)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page')
     
     try:
-        news = paginator.get_page(page)
+        news = paginator.page(page)
     except PageNotAnInteger:
         news = paginator.page(1)
     except EmptyPage:
         news = paginator.page(paginator.num_pages)
 
-    return render(request,'home.html', {"context":news})
+    return render_to_response('home.html', {"news":news})
 
 def update(request, KEY = API_KEY, country='us'):
     payload = {}
