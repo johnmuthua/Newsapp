@@ -10,7 +10,10 @@ def about(request):
     return render(request, 'about.html', {"context":context[0]})
 
 def home(request):
-    all_news = NewsArticle.objects.get_queryset().order_by('publishedAt')
+    all_news = NewsArticle.objects.get_queryset().order_by('updatedAt')
+    causel_one = all_news[1]
+    causel_two = all_news[2]
+    causel_three = all_news[3]
     paginator = Paginator(all_news, 9)
     page = request.GET.get('page')
     
@@ -21,7 +24,8 @@ def home(request):
     except EmptyPage:
         news = paginator.page(paginator.num_pages)
 
-    return render_to_response('home.html', {"news":news})
+    return render_to_response('home.html', {"news":news, "causel_one":causel_one,
+                                            "causel_two":causel_two,"causel_three":causel_three})
 
 def update(request, KEY = API_KEY, country='us'):
     payload = {}
