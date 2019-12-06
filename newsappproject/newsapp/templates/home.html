@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-<
 <div>
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -51,10 +50,25 @@
   </div>
 </div>
 
+<div>
+  {% if context.has_previous %}
+  <a href="?page=1">First</a>
+  <a href="?page={{context.previous_page_number}}">Previous</a>
+  {% endif %}
+
+<span>{{ context.number }}</span>
+<span>{{ context.paginator.num_pages }}</span>
+
+
+{% if context.has_next %}
+  <a href="?page= {{ posts.next_page_number}}">Next</a>
+  <a href="?page= {{ posts.paginator.num_pages}}">Last</a>
+  {% endif %}
+
 <div class="container">
     <div class="row">
     {% for item in context.all %}
-    <div class="col-md-4">
+    <div class="col-lg-4 col-md-6">
     <div class="card" style="width: 18rem;">
         <img src="" class="card-img-top" alt="...">
         <div class="card-body">

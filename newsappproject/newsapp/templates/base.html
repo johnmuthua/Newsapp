@@ -3,9 +3,12 @@
 <head>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script defer src="{% static 'fontawesome/js/all.min.js' %}"></script>
 </head>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+<div class="nav-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-words">
      <img src="{% static 'logo.png' %}" />
   <a class="navbar-brand" href="#">News App</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +23,8 @@
     </ul>
   </div>
 </nav>
+</div>
+
 <body>
     {% block content %}
     {% endblock %}
